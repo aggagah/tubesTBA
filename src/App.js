@@ -5,6 +5,8 @@ function App() {
 		sentence: ""
 	})
 
+	const [lexicalResult, setLexicalResult] = useState("")
+
 	const change = (e) => {
 		setState({ ...state, [e.target.id]: e.target.value })
 	}
@@ -146,30 +148,56 @@ function App() {
 			}
 			// console.log(state)
 			if (state === 'error' || state === undefined) {
-				console.log('error')
-
+				// console.log('error')
+				setLexicalResult("Input TIDAK VALID")
 			}
 
 			indexChar++
 		}
 
 		if (state == 'accept') {
-			console.log('semua token di input:', sentence, ', valid')
+			// console.log('semua token di input:', sentence, ', valid')
+			setLexicalResult("Semua input VALID")
 		}
+	}
+
+	const parser = () => {
+
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		lexicalAnalyzer(state.sentence)
+		setState({
+			sentence: ""
+		})
 	}
 	return (
 		<div className="App">
 			<div className="nav">
 				<h1>LEXICAL ANALYZER & PARSER</h1>
+				<p>GRAMMAR CHECKER FOR LATVIAN LANGUAGE</p>
+			</div>
+			<div className="description">
+				<h2><span>FORMAT: </span><br />SUBJECT + VERB + OBJECT</h2>
+				<p>accepted words are listed below</p>
+				<div className="tokens">
+					<div className="subject">
+						<h3>SUBJECTS (NN)</h3>
+						<p>māte (ibu)<br />tante (tante)<br />tēvs (ayah)</p>
+					</div>
+					<div className="verb">
+						<h3>VERBS (VB)</h3>
+						<p>aizpildīt (mengisi)<br />dzēriens (meminum)<br />pirkt (membeli)</p>
+					</div>
+					<div className="object">
+						<h3>OBJECTS (NN)</h3>
+						<p>kleita (baju)<br />ūdens (air)<br />krēsls (kursi)<br />grāmatu (buku)</p>
+					</div>
+				</div>
 			</div>
 			<div className="tobeChecked">
 				<form onSubmit={handleSubmit}>
-					<label htmlFor="sentence">Sentence: </label>
 					<input
 						type="text"
 						id='sentence'
@@ -178,9 +206,14 @@ function App() {
 						onChange={change}
 						value={state.sentence}
 					/>
-
 					<button type="submit">Check</button>
 				</form>
+			</div>
+			<div className="result">
+				<h3>Result: </h3>
+				<div className="resultBox">
+					<p>{lexicalResult}</p>
+				</div>
 			</div>
 		</div>
 	);
