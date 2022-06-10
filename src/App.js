@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import './App.css';
+import parser from './parser'
+
 function App() {
 	const [state, setState] = useState({
 		sentence: ""
 	})
 
 	const [lexicalResult, setLexicalResult] = useState("")
+	const [parserResult, setParserResult] = useState("")
 
 	const change = (e) => {
 		setState({ ...state, [e.target.id]: e.target.value })
@@ -148,21 +151,16 @@ function App() {
 			}
 			// console.log(state)
 			if (state === 'error' || state === undefined) {
-				// console.log('error')
-				setLexicalResult("Input TIDAK VALID")
+				setParserResult(parser(kalimat))
 			}
 
 			indexChar++
 		}
 
 		if (state == 'accept') {
-			// console.log('semua token di input:', sentence, ', valid')
-			setLexicalResult("Semua input VALID")
+			setLexicalResult("WORDS ACCEPTED")
+			setParserResult(parser(kalimat))
 		}
-	}
-
-	const parser = () => {
-
 	}
 
 	const handleSubmit = (e) => {
@@ -213,6 +211,7 @@ function App() {
 				<h3>Result: </h3>
 				<div className="resultBox">
 					<p>{lexicalResult}</p>
+					<p>{parserResult}</p>
 				</div>
 			</div>
 		</div>
